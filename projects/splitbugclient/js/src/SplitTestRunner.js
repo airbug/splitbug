@@ -9,7 +9,7 @@
 //@Require('Class')
 //@Require('Obj')
 //@Require('TypeUtil')
-//@Require('sonarbugclient.SonarBugClient')
+//@Require('sonarbugclient.SonarbugClient')
 
 
 //-------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ var bugpack = require('bugpack').context();
 var Class =             bugpack.require('Class');
 var Obj =               bugpack.require('Obj');
 var TypeUtil =          bugpack.require('TypeUtil');
-var SonarBugClient =    bugpack.require('sonarbugclient.SonarBugClient');
+var SonarbugClient =    bugpack.require('sonarbugclient.SonarbugClient');
 
 
 //-------------------------------------------------------------------------------
@@ -94,7 +94,10 @@ var SplitTestRunner = Class.extend(Obj, {
                 } else {
                     this.controlFunction();
                 }
-                SonarBugClient.track("splitTest", {
+
+                //TODO BRN: This is tight coupling. This should be removed from here and we can report this using an event dispatcher.
+
+                SonarbugClient.track("splitTest", {
                     testName: splitTestSession.getTestName(),
                     testGroup: splitTestSession.getTestGroup()
                 });

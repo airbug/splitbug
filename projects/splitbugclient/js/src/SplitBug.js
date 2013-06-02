@@ -4,14 +4,14 @@
 
 //@Package('splitbug')
 
-//@Export('SplitBug')
+//@Export('Splitbug')
 
 //@Require('Class')
 //@Require('Obj')
 //@Require('Proxy')
 //@Require('Queue')
-//@Require('splitbug.Cookies')
-//@Require('splitbug.SplitBugClient')
+//@Require('cookies.Cookies')
+//@Require('splitbug.SplitbugClient')
 //@Require('splitbug.SplitTestRunner'')
 //@Require('splitbug.SplitTestSession')
 //@Require('splitbug.SplitTestUser')
@@ -33,7 +33,7 @@ var Obj =               bugpack.require('Obj');
 var Proxy =             bugpack.require('Proxy');
 var Queue =             bugpack.require('Queue');
 var Cookies =           bugpack.require('splitbug.Cookies');
-var SplitBugClient =    bugpack.require('splitbug.SplitBugClient');
+var SplitbugClient =    bugpack.require('splitbug.SplitbugClient');
 var SplitTestRunner =   bugpack.require('splitbug.SplitTestRunner');
 var SplitTestSession =  bugpack.require('splitbug.SplitTestSession');
 var SplitTestUser =     bugpack.require('splitbug.SplitTestUser');
@@ -43,13 +43,13 @@ var SplitTestUser =     bugpack.require('splitbug.SplitTestUser');
 // Declare Class
 //-------------------------------------------------------------------------------
 
-var SplitBug = Class.extend(Obj, {
+var Splitbug = Class.extend(Obj, {
 
     //-------------------------------------------------------------------------------
     // Constructor
     //-------------------------------------------------------------------------------
 
-    _constructor: function() {
+    _constructor: function(cookies, splitbugClient) {
 
         this._super();
 
@@ -72,6 +72,18 @@ var SplitBug = Class.extend(Obj, {
 
         /**
          * @private
+         * @type {Cookies}
+         */
+        this.cookies = cookies;
+
+        /**
+         * @private
+         * @type {SplitbugClient}
+         */
+        this.splitbugClient = splitbugClient;
+
+        /**
+         * @private
          * @type {Queue.<SplitTestRunner>}
          */
         this.splitTestRunnerQueue = new Queue();
@@ -87,12 +99,6 @@ var SplitBug = Class.extend(Obj, {
          * @type {SplitTestUser}
          */
         this.splitTestUser = null;
-
-        /**
-         * @private
-         * @type {SplitBugClient}
-         */
-        this.splitBugClient = null;
     },
 
 
@@ -125,7 +131,7 @@ var SplitBug = Class.extend(Obj, {
                     port: params.port || 80,
                     host: params.host || "http://splitbug.com"
                 };
-                this.splitBugClient = new SplitBugClient(clientConfig);
+                this.splitbugClient.configure(clientConfig);
                 this.setupSplitTestUser(function(error) {
                     if (!error) {
                         _this.setupSplitTestSession(function(error) {
@@ -182,7 +188,7 @@ var SplitBug = Class.extend(Obj, {
             userAgent: navigator.userAgent
         };
         //TODO BRN: We should use the BugMarshaller to convert the splitTestSessionObject to a SplitTestSession. This should be done within the client instead of having to do this here.
-        this.splitBugClient.establishSplitTestSession(splitTestUser.getUserUuid(), data, function(error, splitTestSessionObject) {
+        this.splitbugClient.establishSplitTestSession(splitTestUser.getUserUuid(), data, function(error, splitTestSessionObject) {
             if (!error) {
                 callback(null, new SplitTestSession(splitTestSessionObject));
             } else {
@@ -198,7 +204,7 @@ var SplitBug = Class.extend(Obj, {
     generateSplitTestUser: function(callback) {
         //TODO BRN: We should use the BugMarshaller to convert the splitTestUserObject to a SplitTestUser. This should be done within the client instead of having to do this here.
 
-        this.splitBugClient.generateSplitTestUser(function(error, splitTestUserObject) {
+        this.splitbugClient.generateSplitTestUser(function(error, splitTestUserObject) {
             if (!error) {
                 callback(null, new SplitTestUser(splitTestUserObject));
             } else {
@@ -299,7 +305,7 @@ var SplitBug = Class.extend(Obj, {
      * @param {function(Error, boolean)} callback
      */
     validateSplitTestSession: function(splitTestSession, callback) {
-        this.splitBugClient.validateSplitTestSession(splitTestSession.toObject(), function(error, valid) {
+        this.splitbugClient.validateSplitTestSession(splitTestSession.toObject(), function(error, valid) {
             if (!error) {
                 callback(null, valid);
             } else {
@@ -313,7 +319,7 @@ var SplitBug = Class.extend(Obj, {
      * @return {Object}
      */
     retrieveSplitTestSessionFromCookies: function() {
-        var sessionObject = Cookies.getCookie("splitbug-test-session");
+        var sessionObject = this.cookies.getCookie("splitbug-test-session");
         if (sessionObject) {
             sessionObject = JSON.parse(sessionObject);
         }
@@ -325,7 +331,7 @@ var SplitBug = Class.extend(Obj, {
      * @return {Object}
      */
     retrieveSplitTestUserFromCookies: function() {
-        var splitTestUserObject = Cookies.getCookie("splitbug-test-user");
+        var splitTestUserObject = this.cookies.getCookie("splitbug-test-user");
         if (splitTestUserObject) {
             splitTestUserObject = JSON.parse(splitTestUserObject);
         }
@@ -338,7 +344,7 @@ var SplitBug = Class.extend(Obj, {
      */
     storeSplitTestSessionToCookies: function(splitTestSession) {
         var sessionObject = splitTestSession.toObject();
-        Cookies.setCookie("splitbug-test-session", JSON.stringify(sessionObject), Infinity, "/");
+        this.cookies.setCookie("splitbug-test-session", JSON.stringify(sessionObject), Infinity, "/");
     },
 
     /**
@@ -347,7 +353,7 @@ var SplitBug = Class.extend(Obj, {
      */
     storeSplitTestUserToCookies: function(splitTestUser) {
         var splitTestUserObject = splitTestUser.toObject();
-        Cookies.setCookie("splitbug-test-user", JSON.stringify(splitTestUserObject), Infinity, "/");
+        this.cookies.setCookie("splitbug-test-user", JSON.stringify(splitTestUserObject), Infinity, "/");
     }
 });
 
@@ -359,9 +365,9 @@ var SplitBug = Class.extend(Obj, {
 /**
  * @static
  * @private
- * @type {SplitBug}
+ * @type {Splitbug}
  */
-SplitBug.instance = null;
+Splitbug.instance = null;
 
 
 //-------------------------------------------------------------------------------
@@ -370,16 +376,18 @@ SplitBug.instance = null;
 
 /**
  * @static
- * @return {SplitBug}
+ * @return {Splitbug}
  */
-SplitBug.getInstance = function() {
-    if (!SplitBug.instance) {
-        SplitBug.instance = new SplitBug();
+Splitbug.getInstance = function() {
+    if (!Splitbug.instance) {
+        var cookies = new Cookies(document);
+        var splitbugClient = new SplitbugClient();
+        Splitbug.instance = new Splitbug(cookies, splitbugClient);
     }
-    return SplitBug.instance;
+    return Splitbug.instance;
 };
 
-Proxy.proxy(SplitBug, SplitBug.getInstance, [
+Proxy.proxy(Splitbug, Splitbug.getInstance, [
     "configure",
     "splitTest"
 ]);
@@ -389,4 +397,4 @@ Proxy.proxy(SplitBug, SplitBug.getInstance, [
 // Exports
 //-------------------------------------------------------------------------------
 
-bugpack.export('splitbug.SplitBug', SplitBug);
+bugpack.export('splitbug.Splitbug', Splitbug);

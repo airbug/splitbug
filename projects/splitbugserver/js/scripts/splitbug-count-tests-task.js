@@ -24,10 +24,10 @@ var CountTestsTask = bugpack.require('splitbug.CountTestsTask');
 //-------------------------------------------------------------------------------
 
 var countTestsTask = new CountTestsTask();
-console.log("Configuring SplitBug count tests task");
+console.log("Configuring Splitbug count tests task");
 countTestsTask.configure(function(error) {
     if (!error) {
-        console.log("Running SplitBug count tests task");
+        console.log("Running Splitbug count tests task");
         countTestsTask.run(function(error) {
             if (!error) {
 

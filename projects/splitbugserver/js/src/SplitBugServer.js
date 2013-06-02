@@ -4,7 +4,7 @@
 
 //@Package('splitbug')
 
-//@Export('SplitBugServer')
+//@Export('SplitbugServer')
 
 //@Require('Class')
 //@Require('Map')
@@ -58,7 +58,7 @@ var $task               = BugFlow.$task;
 // Declare Class
 //-------------------------------------------------------------------------------
 
-var SplitBugServer = Class.extend(Obj, {
+var SplitbugServer = Class.extend(Obj, {
 
     //-------------------------------------------------------------------------------
     // Constructor
@@ -297,16 +297,16 @@ var SplitBugServer = Class.extend(Obj, {
             //-------------------------------------------------------------------------------
 
             process.on('SIGTERM', function () {
-                console.log("SplitBug server closing");
+                console.log("Splitbug server closing");
                 _this.app.close();
             });
 
             this.app.on('close', function () {
-                console.log("SplitBug server closed");
+                console.log("Splitbug server closed");
             });
 
             http.createServer(this.app).listen(this.app.get('port'), function(){
-                console.log("SplitBug server listening on port " + _this.app.get('port'));
+                console.log("Splitbug server listening on port " + _this.app.get('port'));
             });
         }
     }
@@ -317,4 +317,4 @@ var SplitBugServer = Class.extend(Obj, {
 // Exports
 //-------------------------------------------------------------------------------
 
-bugpack.export('splitbug.SplitBugServer', SplitBugServer);
+bugpack.export('splitbug.SplitbugServer', SplitbugServer);

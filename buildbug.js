@@ -37,8 +37,8 @@ buildProperties({
     splitbug: {
         packageJson: {
             name: "splitbug",
-            version: "0.0.1",
-            main: "./lib/SplitBug.js",
+            version: "0.0.2",
+            main: "./lib/Splitbug.js",
             dependencies: {
                 bugpack: "https://s3.amazonaws.com/airbug/bugpack-0.0.5.tgz",
                 "express": "3.1.x",
@@ -61,6 +61,7 @@ buildProperties({
             "../bugjs/projects/bugjs/js/src",
             "../bugjs/projects/bugtrace/js/src",
             "../bugjs/projects/riak/js/src",
+            "../bugunit/projects/bugdouble/js/src",
             "../bugunit/projects/bugunit/js/src"
         ],
         scriptPaths: [
@@ -68,34 +69,9 @@ buildProperties({
             "../bugunit/projects/bugunit/js/scripts"
         ],
         testPaths: [
-            "../bugjs/projects/bugjs/js/test"
-        ]
-    },
-    splitbugclient: {
-        packageJson: {
-            name: "splitbugclient",
-            version: "0.0.1",
-            main: "./lib/SplitBug.js",
-            dependencies: {
-                bugpack: "https://s3.amazonaws.com/airbug/bugpack-0.0.5.tgz",
-                "socket.io-client": "0.9.x"
-            }
-        },
-        sourcePaths: [
-            "./projects/splitbug/js/src",
-            "./projects/splitbugclient/js/src",
-            "../bugjs/projects/bugjs/js/src",
-            "../bugjs/projects/bugtrace/js/src",
-            '../bugjs/projects/bugflow/js/src',
-            "../bugjs/projects/bugfs/js/src",
-            "../bugjs/projects/annotate/js/src",
-            "../bugunit/projects/bugunit/js/src"
-        ],
-        scriptPaths: [
-            "../bugunit/projects/bugunit/js/scripts"
-        ],
-        testPaths: [
-            "../bugjs/projects/bugjs/js/test"
+            "../bugjs/projects/bugflow/js/test",
+            "../bugjs/projects/bugjs/js/test",
+            "../bugjs/projects/bugtrace/js/test"
         ]
     }
 });

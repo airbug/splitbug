@@ -2,7 +2,7 @@
 // Requires
 //-------------------------------------------------------------------------------
 
-//@Require('splitbug.SplitBug')
+//@Require('splitbug.Splitbug')
 
 
 //-------------------------------------------------------------------------------
@@ -16,22 +16,22 @@ var bugpack = require('bugpack').context(module);
 // BugPack
 //-------------------------------------------------------------------------------
 
-var SplitBugServer = bugpack.require('splitbug.SplitBugServer');
+var SplitbugServer = bugpack.require('splitbug.SplitbugServer');
 
 
 //-------------------------------------------------------------------------------
 // Bootstrap
 //-------------------------------------------------------------------------------
 
-var splitBugServer = new SplitBugServer();
-console.log("Configuring SplitBug server");
-splitBugServer.configure(function(error) {
+var splitbugServer = new SplitbugServer();
+console.log("Configuring Splitbug server");
+splitbugServer.configure(function(error) {
     if (!error) {
-        console.log("SplitBug server successfully configured.");
-        console.log("Starting SplitBug server");
-        splitBugServer.start();
+        console.log("Splitbug server successfully configured.");
+        console.log("Starting Splitbug server");
+        splitbugServer.start();
     } else {
-        console.log("Error occurred while configuring SplitBug server.");
+        console.log("Error occurred while configuring Splitbug server.");
         console.log(error);
         console.log(error.stack);
     }
