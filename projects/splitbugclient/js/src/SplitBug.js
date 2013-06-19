@@ -387,7 +387,7 @@ Splitbug.getInstance = function() {
     return Splitbug.instance;
 };
 
-Proxy.proxy(Splitbug, Splitbug.getInstance, [
+Proxy.proxy(Splitbug, Proxy.method(Splitbug.getInstance), [
     "configure",
     "splitTest"
 ]);
