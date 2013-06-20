@@ -44,7 +44,7 @@ var SplitTest =             bugpack.require('splitbug.SplitTest');
 // Simplify References
 //-------------------------------------------------------------------------------
 
-var $foreachParallel =  BugFlow.$foreachParallel;
+var $forEachParallel =  BugFlow.$forEachParallel;
 var $parallel =         BugFlow.$parallel;
 var $series =           BugFlow.$series;
 var $task =             BugFlow.$task;
@@ -285,7 +285,7 @@ var SplitTestApi = {
                 })
             ]),
             $task(function(flow) {
-                $foreachParallel(splitTestsObject.splitTests, function(flow, splitTestObject) {
+                $forEachParallel(splitTestsObject.splitTests, function(flow, splitTestObject) {
                     if (splitTestObject.name) {
                         SplitTestApi.getSplitTestByName(splitTestObject.name, function(error, splitTest) {
                             if (!error) {
@@ -346,7 +346,7 @@ var SplitTestApi = {
                 console.log("About to deactivate these split tests");
                 console.log(splitTestsToDeactivate);
 
-                $foreachParallel(splitTestsToDeactivate, function(flow, splitTestToDeactivate) {
+                $forEachParallel(splitTestsToDeactivate, function(flow, splitTestToDeactivate) {
 
                     if (splitTestToDeactivate.getName()) {
                         splitTestToDeactivate.setActive(false);
