@@ -55,7 +55,7 @@ buildProperties({
         sourcePaths: [
             "./projects/splitbug/js/src",
             "./projects/splitbugserver/js/src",
-            "../bugjs/projects/annotate/js/src",
+            "../bugjs/projects/bugmeta/js/src",
             "../bugjs/projects/bugflow/js/src",
             "../bugjs/projects/bugfs/js/src",
             "../bugjs/projects/bugjs/js/src",
