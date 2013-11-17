@@ -42,7 +42,7 @@ var SplitTestRunner = Class.extend(Obj, {
     _constructor: function(splitTestRunnerObject) {
 
         //-------------------------------------------------------------------------------
-        // Declare Variables
+        // Private Properties
         //-------------------------------------------------------------------------------
 
         //TODO BRN: These tests can all be moved to the BugMarshaller when it's complete

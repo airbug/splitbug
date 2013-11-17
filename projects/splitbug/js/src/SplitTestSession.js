@@ -38,7 +38,7 @@ var SplitTestSession = Class.extend(Obj, {
     _constructor: function(splitTestSessionObject) {
 
         //-------------------------------------------------------------------------------
-        // Declare Variables
+        // Private Properties
         //-------------------------------------------------------------------------------
 
         /**

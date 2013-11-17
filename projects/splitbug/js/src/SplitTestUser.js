@@ -38,7 +38,7 @@ var SplitTestUser = Class.extend(Obj, {
     _constructor: function(splitTestUserObject) {
 
         //-------------------------------------------------------------------------------
-        // Declare Variables
+        // Private Properties
         //-------------------------------------------------------------------------------
 
         /**
