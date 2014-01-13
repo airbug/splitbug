@@ -154,6 +154,9 @@ var SplitbugServer = Class.extend(Obj, {
                 cronTime: '*/5 * * * *',
                 onTick: function() {
                     var countScriptPath = path.resolve(__dirname, "../scripts/splitbug-count-tests-task.js");
+
+                    //TODO BRN: Change out this call for child_process.spawn. this will prevent buffer overflow errors.
+
                     var child = child_process.exec("node " + countScriptPath , function (error, stdout, stderr) {
                         console.log('stdout: ' + stdout);
                         console.log('stderr: ' + stderr);
