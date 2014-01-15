@@ -109,19 +109,23 @@ var SplitbugServer = Class.extend(Obj, {
         var configPath = path.resolve(__dirname, '../config.json');
         $series([
             $task(function(flow) {
-                BugFs.exists(configPath, function(exists) {
-                    if (exists) {
-                        BugFs.readFile(configPath, 'utf8', function(error, data) {
-                            if (!error) {
-                                console.log("config loaded ", data);
-                                _this.config = JSON.parse(data);
-                                flow.complete();
-                            } else {
-                                flow.error(error);
-                            }
-                        });
+                BugFs.exists(configPath, function(throwable, exists) {
+                    if (!throwable) {
+                        if (exists) {
+                            BugFs.readFile(configPath, 'utf8', function(error, data) {
+                                if (!error) {
+                                    console.log("config loaded ", data);
+                                    _this.config = JSON.parse(data);
+                                    flow.complete();
+                                } else {
+                                    flow.error(error);
+                                }
+                            });
+                        } else {
+                            flow.complete();
+                        }
                     } else {
-                        flow.complete();
+                        flow.error(throwable);
                     }
                 })
             }),
