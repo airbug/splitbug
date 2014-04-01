@@ -40,7 +40,7 @@ buildProperties({
             version: "0.0.2",
             main: "./lib/Splitbug.js",
             dependencies: {
-                bugpack: "https://s3.amazonaws.com/airbug/bugpack-0.0.5.tgz",
+                bugpack: "https://s3.amazonaws.com/deploy-airbug/bugpack-0.0.5.tgz",
                 "express": "3.1.x",
                 "riak-js": "0.9.x",
                 "cron": "1.0.x"
