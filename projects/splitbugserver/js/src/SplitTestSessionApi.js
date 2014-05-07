@@ -2,9 +2,7 @@
 // Annotations
 //-------------------------------------------------------------------------------
 
-//@Package('splitbug')
-
-//@Export('SplitTestSessionApi')
+//@Export('splitbug.SplitTestSessionApi')
 
 //@Require('MathUtil')
 //@Require('TypeUtil')

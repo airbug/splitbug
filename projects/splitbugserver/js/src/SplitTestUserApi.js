@@ -2,9 +2,7 @@
 // Annotations
 //-------------------------------------------------------------------------------
 
-//@Package('splitbug')
-
-//@Export('SplitTestUserApi')
+//@Export('splitbug.SplitTestUserApi')
 
 //@Require('UuidGenerator')
 //@Require('riak.RiakDb')

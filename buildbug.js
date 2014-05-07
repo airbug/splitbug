@@ -1,32 +1,44 @@
+/*
+ * Copyright (c) 2014 airbug Inc. All rights reserved.
+ *
+ * All software, both binary and source contained in this work is the exclusive property
+ * of airbug Inc. Modification, decompilation, disassembly, or any other means of discovering
+ * the source code of this software is prohibited. This work is protected under the United
+ * States copyright law and other international copyright treaties and conventions.
+ */
+
+
 //-------------------------------------------------------------------------------
 // Requires
 //-------------------------------------------------------------------------------
 
-var buildbug = require('buildbug');
+var buildbug            = require('buildbug');
 
 
 //-------------------------------------------------------------------------------
 // Simplify References
 //-------------------------------------------------------------------------------
 
-var buildProject = buildbug.buildProject;
-var buildProperties = buildbug.buildProperties;
-var buildTarget = buildbug.buildTarget;
-var enableModule = buildbug.enableModule;
-var parallel = buildbug.parallel;
-var series = buildbug.series;
-var targetTask = buildbug.targetTask;
+var buildProject        = buildbug.buildProject;
+var buildProperties     = buildbug.buildProperties;
+var buildScript         = buildbug.buildScript;
+var buildTarget         = buildbug.buildTarget;
+var enableModule        = buildbug.enableModule;
+var parallel            = buildbug.parallel;
+var series              = buildbug.series;
+var targetTask          = buildbug.targetTask;
 
 
 //-------------------------------------------------------------------------------
 // Enable Modules
 //-------------------------------------------------------------------------------
 
-var aws = enableModule("aws");
-var bugpack = enableModule('bugpack');
-var bugunit = enableModule('bugunit');
-var core = enableModule('core');
-var nodejs = enableModule('nodejs');
+var aws                 = enableModule("aws");
+var bugpack             = enableModule('bugpack');
+var bugunit             = enableModule('bugunit');
+var core                = enableModule('core');
+var lintbug             = enableModule('lintbug');
+var nodejs              = enableModule('nodejs');
 
 
 //-------------------------------------------------------------------------------
@@ -40,7 +52,7 @@ buildProperties({
             version: "0.0.2",
             main: "./lib/Splitbug.js",
             dependencies: {
-                bugpack: "https://s3.amazonaws.com/deploy-airbug/bugpack-0.0.5.tgz",
+                bugpack: "0.1.12",
                 "express": "3.1.x",
                 "riak-js": "0.9.x",
                 "cron": "1.0.x"
@@ -55,12 +67,12 @@ buildProperties({
         sourcePaths: [
             "./projects/splitbug/js/src",
             "./projects/splitbugserver/js/src",
-            "../bugjs/projects/bugmeta/js/src",
-            "../bugjs/projects/bugflow/js/src",
-            "../bugjs/projects/bugfs/js/src",
-            "../bugjs/projects/bugjs/js/src",
-            "../bugjs/projects/bugtrace/js/src",
+            "../bugcore/projects/bugcore/js/src",
+            "../bugflow/projects/bugflow/js/src",
+            "../bugfs/projects/bugfs/js/src",
             "../bugjs/projects/riak/js/src",
+            "../bugmeta/projects/bugmeta/js/src",
+            "../bugtrace/projects/bugtrace/js/src",
             "../bugunit/projects/bugdouble/js/src",
             "../bugunit/projects/bugunit/js/src"
         ],
@@ -69,9 +81,20 @@ buildProperties({
             "../bugunit/projects/bugunit/js/scripts"
         ],
         testPaths: [
-            "../bugjs/projects/bugflow/js/test",
-            "../bugjs/projects/bugjs/js/test",
-            "../bugjs/projects/bugtrace/js/test"
+            "../bugcore/projects/bugcore/js/test",
+            "../bugflow/projects/bugflow/js/test",
+            "../bugtrace/projects/bugtrace/js/test"
+        ]
+    },
+    lint: {
+        targetPaths: [
+            "."
+        ],
+        ignorePatterns: [
+            ".*\\.buildbug$",
+            ".*\\.bugunit$",
+            ".*\\.git$",
+            ".*node_modules$"
         ]
     }
 });
@@ -104,6 +127,15 @@ buildTarget('local').buildFlow(
         // old source files are removed. We should figure out a better way of doing that.
 
         targetTask('clean'),
+        targetTask('lint', {
+            properties: {
+                targetPaths: buildProject.getProperty("lint.targetPaths"),
+                ignores: buildProject.getProperty("lint.ignorePatterns"),
+                lintTasks: [
+                    "fixExportAndRemovePackageAnnotations"
+                ]
+            }
+        }),
         parallel([
             series([
                 targetTask('createNodePackage', {
@@ -232,3 +264,16 @@ buildTarget('prod').buildFlow(
         ])
     ])
 );
+
+
+//-------------------------------------------------------------------------------
+// Build Scripts
+//-------------------------------------------------------------------------------
+
+buildScript({
+    dependencies: [
+        "bugcore",
+        "bugflow"
+    ],
+    script: "./lintbug.js"
+});

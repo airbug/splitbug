@@ -2,9 +2,7 @@
 // Annotations
 //-------------------------------------------------------------------------------
 
-//@Package('splitbug')
-
-//@Export('SplitbugServer')
+//@Export('splitbug.SplitbugServer')
 
 //@Require('Class')
 //@Require('Map')

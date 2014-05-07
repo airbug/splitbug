@@ -2,9 +2,7 @@
 // Annotations
 //-------------------------------------------------------------------------------
 
-//@Package('splitbug')
-
-//@Export('CountTestsTask')
+//@Export('splitbug.CountTestsTask')
 
 //@Require('Class')
 //@Require('Obj')

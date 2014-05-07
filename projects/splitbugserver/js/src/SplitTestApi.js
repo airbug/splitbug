@@ -2,9 +2,7 @@
 // Annotations
 //-------------------------------------------------------------------------------
 
-//@Package('splitbug')
-
-//@Export('SplitTestApi')
+//@Export('splitbug.SplitTestApi')
 
 //@Require('List')
 //@Require('Map')

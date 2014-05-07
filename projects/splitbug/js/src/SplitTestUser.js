@@ -2,9 +2,7 @@
 // Annotations
 //-------------------------------------------------------------------------------
 
-//@Package('splitbug')
-
-//@Export('SplitTestUser')
+//@Export('splitbug.SplitTestUser')
 
 //@Require('Class')
 //@Require('Obj')
