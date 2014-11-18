@@ -52,7 +52,7 @@ buildProperties({
             version: "0.0.2",
             main: "./lib/Splitbug.js",
             dependencies: {
-                bugpack: "0.1.14",
+                bugpack: "0.2.0",
                 "express": "3.1.x",
                 "riak-js": "0.9.x",
                 "cron": "1.0.x"
@@ -68,15 +68,15 @@ buildProperties({
             "./projects/splitbug/js/src",
             "./projects/splitbugserver/js/src",
             "../bugcore/libraries/bugcore/js/src",
-            "../bugfs/projects/bugfs/js/src",
+            "../bugdouble/libraries/bugdouble/js/src",
+            "../bugfs/libraries/bugfs/js/src",
             "../bugjs/projects/riak/js/src",
-            "../bugmeta/projects/bugmeta/js/src",
-            "../bugunit/projects/bugdouble/js/src",
-            "../bugunit/projects/bugunit/js/src"
+            "../bugmeta/libraries/bugmeta/js/src",
+            "../bugunit/libraries/bugunit/js/src"
         ],
         scriptPaths: [
             "./projects/splitbugserver/js/scripts",
-            "../bugunit/projects/bugunit/js/scripts"
+            "../bugunit/libraries/bugunit/js/scripts"
         ],
         testPaths: [
             "../bugcore/libraries/bugcore/js/test"
