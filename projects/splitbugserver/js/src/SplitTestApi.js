@@ -343,7 +343,7 @@ require('bugpack').context("*", function(bugpack) {
                     });
                 }),
                 $task(function(flow) {
-                    var splitTestsToDeactivate = activeSplitTestsMap.getValueArray();
+                    var splitTestsToDeactivate = activeSplitTestsMap.toValueArray();
 
                     //TEST
                     console.log("About to deactivate these split tests");
@@ -387,7 +387,7 @@ require('bugpack').context("*", function(bugpack) {
                 $task(function(flow) {
                     SplitTestApi.getAllActiveSplitTests(function(error, splitTestList) {
                         console.log("Split TESTS loaded");
-                        console.log(splitTestList.getValueArray());
+                        console.log(splitTestList.toValueArray());
                         if (!error) {
                             SplitTestApi.splitTestList = splitTestList;
                             flow.complete();
